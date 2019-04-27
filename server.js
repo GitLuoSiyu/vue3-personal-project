@@ -19,9 +19,14 @@ mongoose.connect(db)
         .then( () => console.log("MongoDB connected"))
         .catch( err => console.log("MogoDB connect Error:",err));
 
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-})
+// 初始化password
+app.use(passport.initialize())
+
+require("./config/passport")(passport)
+
+// app.get("/", (req, res) => {
+//   res.send("Hello World!");
+// })
 
 // 使用routes
 app.use("/api/users", users);

@@ -5,6 +5,9 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const gravatar = require("gravatar");
+const jwt = require("jsonwebtoken");
+const keys = require("../../config/keys");
+const passport = require('passport');
 const User = require("../../models/User");
 
 // 访问localhost:5000/api/users/test 即可拿到msg
@@ -71,7 +74,17 @@ router.post("/login", (req, res) => {
         if(!user) {
           return res.status(404).json({email:"用户不存在"});
         } else {
-
+          const rule = {id:user.id, name:user.name};
+          jwt.sign(rule, keys.secretOrKey, {expiresIn:3600}, (err, token) => {
+            if(err) throw err;
+            res.json({
+              success:true,
+              token:"Bearer " + token
+            })
+            // 这里就可以去 post 验证 token 了
+          })
+          // 这个规则是自己设定的，这里是用id和name组合，有些还会加上时间戳、其他字段等等
+          // jwt.sign("规则", "加密名字", "过期时间", "箭头函数")
           // 密码匹配
           // bcrypt.compare(myPlaintextPassword, hash, function(err, res) {
           //   // res === true
@@ -87,6 +100,19 @@ router.post("/login", (req, res) => {
                 })
         }
       })
+})
+
+// 假定用户已经拿到token
+// $route GET api/users/current
+// @desc return current user
+// @access private
+router.get("/current", passport.authenticate("jwt", {session:false}), (req, res) => {
+  res.json({
+    id:req.user.id,
+    name:req.user.name,
+    email:req.user.email
+  });
+  // 可以返回用户的 个人信息,email avatar 等等
 })
 
 module.exports = router;
