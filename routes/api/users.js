@@ -18,6 +18,9 @@ router.get("/test", (req, res) => {
   res.json({ msg:"Login works"})
 })
 
+// @route  POST api/users/register
+// @desc   返回的请求的json数据
+// @access public
 // 可以使用postman检测
 router.post("/register", (req, res) => {
   // console.log(req.body)
@@ -34,9 +37,9 @@ router.post("/register", (req, res) => {
             name:req.body.name,
             email:req.body.email,
             avatar,
-            password:req.body.password
-          })
-
+            password:req.body.password,
+            identity:req.body.identity
+          });
           // 加密，加盐
           // bcrypt.genSalt(saltRounds, function(err, salt) {
           //   bcrypt.hash(myPlaintextPassword, salt, function(err, hash) {
@@ -73,32 +76,34 @@ router.post("/login", (req, res) => {
       .then(user => {
         if(!user) {
           return res.status(404).json({email:"用户不存在"});
-        } else {
-          const rule = {id:user.id, name:user.name};
-          jwt.sign(rule, keys.secretOrKey, {expiresIn:3600}, (err, token) => {
-            if(err) throw err;
-            res.json({
-              success:true,
-              token:"Bearer " + token
-            })
-            // 这里就可以去 post 验证 token 了
-          })
-          // 这个规则是自己设定的，这里是用id和name组合，有些还会加上时间戳、其他字段等等
-          // jwt.sign("规则", "加密名字", "过期时间", "箭头函数")
-          // 密码匹配
-          // bcrypt.compare(myPlaintextPassword, hash, function(err, res) {
-          //   // res === true
-          // })
-          bcrypt.compare(password, user.password)
-                .then(isMatch => {
-                  if(isMatch) {
-                    res.json({msg: "Success"})
-                    // 真正应该返回的是一个token
-                  } else {
-                    return res.status(400).json({password: "密码错误"})
-                  }
-                })
-        }
+        } 
+
+        // 密码匹配
+        bcrypt.compare(password, user.password).then(isMatch => {
+          if(isMatch) {
+            const rule = {
+              id: user.id,
+              name: user.name,
+              avatar: user.avatar,
+              identity: user.identity
+            }
+            jwt.sign(rule, keys.secretOrKey, { expiresIn: 3600 }, (err, token) => {
+              if (err) throw err;
+              res.json({
+                success: true,
+                token: 'Bearer ' + token
+              });
+            });
+          } else {
+            return res.status(400).json('密码错误!');
+          }
+        })
+        // 这个规则是自己设定的，这里是用id和name组合，有些还会加上时间戳、其他字段等等
+        // jwt.sign("规则", "加密名字", "过期时间", "箭头函数")
+        // 密码匹配
+        // bcrypt.compare(myPlaintextPassword, hash, function(err, res) {
+        //   // res === true
+        // })
       })
 })
 
@@ -110,7 +115,8 @@ router.get("/current", passport.authenticate("jwt", {session:false}), (req, res)
   res.json({
     id:req.user.id,
     name:req.user.name,
-    email:req.user.email
+    email:req.user.email,
+    identity: req.user.identity
   });
   // 可以返回用户的 个人信息,email avatar 等等
 })
