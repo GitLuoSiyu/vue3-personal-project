@@ -79,6 +79,14 @@ export default {
             const { token } = res.data;
             // 存储到 ls
             localStorage.setItem("eleToken", token);
+
+            // 解析token
+            const decoded = jwt_decode(token);
+            // console.log(decoded);
+
+            // 将token存入vuex
+            this.$store.dispatch("setAuthenticated", !this.isEmpty(decoded));
+            this.$store.dispatch("setUser", decoded);
           });
 
           this.$router.push("/index");
@@ -87,6 +95,15 @@ export default {
           return false;
         }
       });
+    },
+
+    isEmpty(value) {
+      return (
+        value === undefined ||
+        value === null ||
+        (typeof value === "object" && Object.keys(value).length === 0) ||
+        (typeof value === "string" && value.trim().length === 0)
+      );
     }
   }
 };

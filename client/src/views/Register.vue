@@ -113,7 +113,6 @@ export default {
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          // alert("sumbit");
           this.$axios
             .post("/api/users/register", this.registerUser)
             .then(res => {
@@ -122,15 +121,8 @@ export default {
                 message: "账号注册成功",
                 type: "success"
               });
+              this.$router.push("/login");
             });
-
-          this.$router.push("/login");
-          // .catch(err => {
-          //   this.$message({
-          //     message: "账号已被注册",
-          //     type: "error"
-          //   });
-          // });
         } else {
           console.log("error submit!");
           return false;
