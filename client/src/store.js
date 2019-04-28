@@ -43,6 +43,11 @@ const actions = {
 
   setUser: ({ commit }, user) => {
     commit(types.SET_USER, user);
+  },
+
+  clearCurrentState: ({ commit }) => {
+    commit(types.SET_IS_AUTNENTIATED, false);
+    commit(types.SET_USER, null);
   }
 };
 

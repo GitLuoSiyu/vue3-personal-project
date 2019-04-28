@@ -5,6 +5,8 @@ import Index from "./views/Index.vue";
 import Register from "./views/Register.vue";
 import Login from "./views/Login.vue";
 import NotFound from "./views/404.vue";
+import InfoShow from "./views/InfoShow.vue";
+import Home from "./views/Home.vue";
 
 Vue.use(Router);
 
@@ -19,7 +21,18 @@ const router = new Router({
     {
       path: "/index",
       name: "index",
-      component: Index
+      component: Index,
+      children: [
+        {
+          path: "",
+          component: Home
+        },
+        {
+          path: "/home",
+          name: "home",
+          component: Home
+        }
+      ]
     },
     {
       path: "/register",
@@ -30,6 +43,11 @@ const router = new Router({
       path: "/login",
       name: "login",
       component: Login
+    },
+    {
+      path: "/infoshow",
+      name: "infoshow",
+      component: InfoShow
     },
     {
       path: "*",
