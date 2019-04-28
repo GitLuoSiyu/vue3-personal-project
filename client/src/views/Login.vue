@@ -67,6 +67,27 @@ export default {
         ]
       }
     };
+  },
+  created() {},
+  methods: {
+    submitForm(formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          this.$axios.post("/api/users/login", this.loginUser).then(res => {
+            // token
+            // console.log(res);
+            const { token } = res.data;
+            // 存储到 ls
+            localStorage.setItem("eleToken", token);
+          });
+
+          this.$router.push("/index");
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    }
   }
 };
 </script>
