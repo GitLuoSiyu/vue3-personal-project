@@ -58,10 +58,11 @@ export default {
       }
     },
     showInfoList() {
-      console.log("个人信息");
+      // console.log("个人信息");
+      this.$router.push("/infoshow");
     },
     logout() {
-      console.log("退出");
+      // console.log("退出");
       // 清除token
       localStorage.removeItem("eleToken");
       // 设置vuex store

@@ -7,6 +7,7 @@ import Login from "./views/Login.vue";
 import NotFound from "./views/404.vue";
 import InfoShow from "./views/InfoShow.vue";
 import Home from "./views/Home.vue";
+import FoundList from "./views/FoundList.vue";
 
 Vue.use(Router);
 
@@ -31,6 +32,16 @@ const router = new Router({
           path: "/home",
           name: "home",
           component: Home
+        },
+        {
+          path: "/infoshow",
+          name: "infoshow",
+          component: InfoShow
+        },
+        {
+          path: "/foundlist",
+          name: "foundlist",
+          component: FoundList
         }
       ]
     },
@@ -43,11 +54,6 @@ const router = new Router({
       path: "/login",
       name: "login",
       component: Login
-    },
-    {
-      path: "/infoshow",
-      name: "infoshow",
-      component: InfoShow
     },
     {
       path: "*",
