@@ -177,7 +177,35 @@ export default {
   },
   data() {
     return {
-      tableData: []
+      tableData: [],
+      allTableData: [],
+      filterTableData: [],
+      dialog: {
+        show: false,
+        title: "",
+        option: "edit"
+      },
+      form: {
+        type: "",
+        describe: "",
+        income: "",
+        expend: "",
+        cash: "",
+        remark: "",
+        id: ""
+      },
+      //需要给分页组件传的信息
+      paginations: {
+        page_index: 1, // 当前位于哪页
+        total: 0, // 总数
+        page_size: 5, // 1页显示多少条
+        page_sizes: [5, 10, 15, 20], //每页显示多少条
+        layout: "total, sizes, prev, pager, next, jumper" // 翻页属性
+      },
+      search_data: {
+        startTime: "",
+        endTime: ""
+      }
     };
   },
   created() {
@@ -195,6 +223,104 @@ export default {
         .catch(err => {
           console.log(err);
         });
+    },
+
+    onEditMoney(row) {
+      // 编辑
+      this.dialog = {
+        show: true,
+        title: "修改资金信息",
+        option: "edit"
+      };
+      this.form = {
+        type: row.type,
+        describe: row.describe,
+        income: row.income,
+        expend: row.expend,
+        cash: row.cash,
+        remark: row.remark,
+        id: row._id
+      };
+    },
+
+    onDeleteMoney(row, index) {
+      // 删除
+      this.$axios.delete(`/api/profile/delete/${row._id}`).then(res => {
+        console.log(res);
+        this.$message("删除成功");
+        this.getProfile();
+      });
+    },
+
+    onAddMoney() {
+      // 添加
+      this.dialog = {
+        show: true,
+        title: "添加资金信息",
+        option: "add"
+      };
+      this.form = {
+        type: "",
+        describe: "",
+        income: "",
+        expend: "",
+        cash: "",
+        remark: "",
+        id: ""
+      };
+    },
+
+    handleCurrentChange(page) {
+      // 当前页
+      let sortnum = this.paginations.page_size * (page - 1);
+      let table = this.allTableData.filter((item, index) => {
+        return index >= sortnum;
+      });
+      // 设置默认分页数据
+      this.tableData = table.filter((item, index) => {
+        return index < this.paginations.page_size;
+      });
+    },
+
+    handleSizeChange(page_size) {
+      // 切换size
+      this.paginations.page_index = 1;
+      this.paginations.page_size = page_size;
+      this.tableData = this.allTableData.filter((item, index) => {
+        return index < page_size;
+      });
+    },
+
+    setPaginations() {
+      // 总页数
+      this.paginations.total = this.allTableData.length;
+      this.paginations.page_index = 1;
+      this.paginations.page_size = 5;
+      // 设置默认分页数据
+      this.tableData = this.allTableData.filter((item, index) => {
+        return index < this.paginations.page_size;
+      });
+    },
+
+    onScreeoutMoney() {
+      // 筛选
+      if (!this.search_data.startTime || !this.search_data.endTime) {
+        this.$message({
+          type: "warning",
+          message: "请选择时间区间"
+        });
+        this.getProfile();
+        return;
+      }
+      const stime = this.search_data.startTime.getTime();
+      const etime = this.search_data.endTime.getTime();
+      this.allTableData = this.filterTableData.filter(item => {
+        let date = new Date(item.date);
+        let time = date.getTime();
+        return time >= stime && time <= etime;
+      });
+      // 分页数据
+      this.setPaginations();
     }
   }
 };

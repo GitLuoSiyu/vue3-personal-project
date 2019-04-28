@@ -88,7 +88,7 @@ export default {
   },
   created: {},
   methods: {
-    onSubmit() {
+    onSubmit(form) {
       this.$refs[form].validate(valid => {
         if (valid) {
           //表单数据验证完成之后，提交数据;
@@ -96,6 +96,7 @@ export default {
             this.dialog.option == "add" ? "add" : `edit/${this.form.id}`;
           this.$axios.post(`/api/profile/${url}`, this.form).then(res => {
             // 操作成功
+            console.log(res);
             this.$message({
               message: "保存成功！",
               type: "success"
