@@ -2,7 +2,7 @@ const path = require("path");
 const debug = process.env.NODE_ENV !== "production";
 
 module.exports = {
-  baseUrl: "/", // 根域上下文目录
+  publicPath: "/", // 根域上下文目录
   outputDir: "dist", // 构建输出目录
   assetsDir: "assets", // 静态资源目录 (js, css, img, fonts)
   lintOnSave: false, // 是否开启eslint保存检测，有效值：ture | false | 'error'
@@ -43,7 +43,7 @@ module.exports = {
     // 单页插件相关配置 https://github.com/vuejs/vue-cli/tree/dev/packages/%40vue/cli-plugin-pwa
   },
   devServer: {
-    open: true,
+    open: false,
     host: "localhost",
     port: 8081,
     https: false,
@@ -51,7 +51,7 @@ module.exports = {
     proxy: {
       // 配置跨域
       "/api": {
-        target: "http://localhost:8081/api/",
+        target: "www.wanandroid.com",
         ws: true,
         changOrigin: true,
         pathRewrite: {

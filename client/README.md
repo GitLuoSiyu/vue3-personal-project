@@ -1,4 +1,7 @@
-# client
+# wanandroid官网（Vue3版）
+
+##致谢
+非常感谢鸿洋大神提供的API,也非常感谢玩安卓社区的大力支持。
 
 ## Project setup
 ```
@@ -30,5 +33,3 @@ yarn run lint
 yarn run test:unit
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

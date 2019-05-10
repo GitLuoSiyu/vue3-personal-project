@@ -2,7 +2,7 @@
   <div class="login">
     <section class="form_container">
       <div class="manage_tip">
-        <span class="title">久保田在线后台管理系统</span>
+        <span class="title">WanAndroid社区</span>
       </div>
       <el-form
         :model="loginUser"

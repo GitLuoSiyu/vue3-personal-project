@@ -2,7 +2,7 @@
   <div class="register">
     <section class="form_container">
       <div class="manage_tip">
-        <span class="title">久保田在线后台管理系统</span>
+        <span class="title">WanAndroid社区</span>
       </div>
       <el-form
         :model="registerUser"
@@ -40,7 +40,7 @@
         <el-form-item label="选择身份">
           <el-select v-model="registerUser.identity" placeholder="请选择身份">
             <el-option label="管理员" value="manager"></el-option>
-            <el-option label="员工" value="employee"></el-option>
+            <el-option label="游客" value="employee"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
