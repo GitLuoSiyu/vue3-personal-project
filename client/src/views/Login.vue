@@ -11,7 +11,7 @@
         class="loginForm"
         label-width="60px"
       >
-        <el-form-item label="邮箱" prop="email">
+        <el-form-item label="账号" prop="email">
           <el-input
             v-model="loginUser.email"
             placeholder="请输入邮箱"
@@ -57,7 +57,7 @@ export default {
           {
             type: "email",
             required: true,
-            message: "邮箱格式不正确",
+            message: "账号格式不正确",
             trigger: "change"
           }
         ],

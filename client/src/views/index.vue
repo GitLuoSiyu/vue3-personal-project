@@ -1,10 +1,11 @@
 <template>
   <div class="index">
     <HeadNav></HeadNav>
-    <LeftMenu></LeftMenu>
+    <!-- <LeftMenu></LeftMenu> -->
     <div class="rightContainer">
       <router-view></router-view>
     </div>
+    <!-- toback -->
   </div>
 </template>
 
@@ -36,8 +37,8 @@ export default {
 .rightContainer {
   position: relative;
   top: 0;
-  left: 180px;
-  width: calc(100% - 180px);
+  left: 0;
+  /* width: calc(100% - 180px); */
   height: calc(100% - 71px);
   overflow: auto;
 }
