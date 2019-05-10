@@ -6,9 +6,20 @@
 export default {
   name: "wxlist",
   data() {
-    return {};
+    return {
+      wecDeBlogs:[],
+    };
   },
-  created() {},
+  created() {
+      this.$ajax.get('/api/wxarticle/list/408/1/json')
+      .then(res=>{
+        //   console.log(res.data.data.datas)
+          this.wecDeBlogs = res.data.data.datas
+      })
+      .catch(error=>{
+          console.log(error)
+      })
+  },
   methods: {}
 };
 </script>

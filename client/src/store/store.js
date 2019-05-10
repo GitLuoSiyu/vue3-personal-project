@@ -9,6 +9,9 @@ const types = {
 };
 
 const state = {
+  userName: "",
+  collectList: [],
+  isAllState: false,
   isAutnenticated: false,
   user: {}
 };
