@@ -1,5 +1,8 @@
 <template>
-  <div class="footer-nav"></div>
+  <div class="footer-nav">
+    <div>©2017 · wanandroid.com · All Rights Reserved. 皖ICP备17022096号</div>
+    <div>关于我们· 本站CDN/存储服务由 又拍云 提供</div>
+  </div>
 </template>
 
 <script>
